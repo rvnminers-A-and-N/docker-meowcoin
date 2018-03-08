@@ -37,7 +37,7 @@ services:
     hostname: ravencoin-gpu-ccminer
     environment:
       URL: ${URL}
-      USER: ${USER}
-      PASS: ${PASS}
+      USERNAME: ${USERNAME}
+      PASSWORD: ${PASSWORD}
     logging: *default-logging
 
