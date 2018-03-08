@@ -51,7 +51,7 @@ USER $APP_USER
 
 # Clone from the git repo
 RUN cd $BUILD_FOLDER \
- && git clone --branch $CCMINER_VERSION --single-branch https://github.com/sofwerx/ccminer.git
+ && git clone --branch linux --single-branch https://github.com/tpruvot/ccminer
 
 ENV CCMINER_FOLDER=$BUILD_FOLDER/ccminer
 
