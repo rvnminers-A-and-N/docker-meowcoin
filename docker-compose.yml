@@ -31,10 +31,27 @@ services:
   ravencoin-gpu-ccminer:
     build:
       context: .
-      dockerfile: Dockerfile.gpu-ccminer
+      args:
+        ARCH: ${ARCH}
+      dockerfile: Dockerfile.gpu-ccminer.${ARCH}
     image: sofwerx/ravencoin-gpu-ccminer
     container_name: ravencoin-gpu-ccminer
     hostname: ravencoin-gpu-ccminer
+    environment:
+      URL: ${URL}
+      USERNAME: ${USERNAME}
+      PASSWORD: ${PASSWORD}
+    logging: *default-logging
+
+  ravencoin-cpu-cpuminer:
+    build:
+      context: .
+      args:
+        ARCH: ${ARCH}
+      dockerfile: Dockerfile.cpu-cpuminer.${ARCH}
+    image: sofwerx/ravencoin-cpu-cpuminer
+    container_name: ravencoin-cpu-cpuminer
+    hostname: ravencoin-cpu-cpuminer
     environment:
       URL: ${URL}
       USERNAME: ${USERNAME}
