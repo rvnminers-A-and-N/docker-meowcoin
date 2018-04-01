@@ -37,8 +37,8 @@ services:
 #    hostname: ravencoin-ccminer
 #    environment:
 #      URL: ${URL}
-#      USER: ${RVN_ADDRESS}
-#      PASS: ${PASS}
+#      USERNAME: ${USERNAME}
+#      PASSWORD: ${PASSWORD}
 #    logging: *default-logging
 
   ravencoin-nevermore:
@@ -50,7 +50,22 @@ services:
     hostname: ravencoin-nevermore
     environment:
       URL: ${URL}
-      USER: ${RVN_ADDRESS}
-      PASS: ${PASS}
+      USERNAME: ${USERNAME}
+      PASSWORD: ${PASSWORD}
     logging: *default-logging
+
+#  ravencoin-cpu-cpuminer:
+#    build:
+#      context: .
+#      args:
+#        ARCH: ${ARCH}
+#      dockerfile: Dockerfile.cpu-cpuminer.${ARCH}
+#    image: sofwerx/ravencoin-cpu-cpuminer
+#    container_name: ravencoin-cpu-cpuminer
+#    hostname: ravencoin-cpu-cpuminer
+#    environment:
+#      URL: ${URL}
+#      USERNAME: ${USERNAME}
+#      PASSWORD: ${PASSWORD}
+#    logging: *default-logging
 
