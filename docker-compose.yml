@@ -31,7 +31,9 @@ services:
 #  ravencoin-ccminer:
 #    build:
 #      context: .
-#      dockerfile: Dockerfile.ccminer
+#      args:
+#        ARCH: ${ARCH}
+#      dockerfile: Dockerfile.ccminer.${ARCH}
 #    image: sofwerx/ravencoin-ccminer
 #    container_name: ravencoin-ccminer
 #    hostname: ravencoin-ccminer
@@ -44,7 +46,9 @@ services:
   ravencoin-nevermore:
     build:
       context: .
-      dockerfile: Dockerfile.nevermore
+      args:
+        ARCH: ${ARCH}
+      dockerfile: Dockerfile.nevermore.${ARCH}
     image: sofwerx/nevermore
     container_name: ravencoin-nevermore
     hostname: ravencoin-nevermore
