@@ -18,68 +18,53 @@ RUN adduser $APP_USER \
  && mkdir $BUILD_FOLDER \
  && chown $APP_USER.users $BUILD_FOLDER
 
-# We'll build jansson as regular user
-USER $APP_USER
+WORKDIR $BUILD_FOLDER
 
 # Download jansson and verify signature (since we're downloading over HTTP)
 
-RUN cd $BUILD_FOLDER \
- && wget http://www.digip.org/jansson/releases/jansson-2.10.tar.gz \
+RUN wget http://www.digip.org/jansson/releases/jansson-2.10.tar.gz \
  && gpg --keyserver pgp.mit.edu --recv-keys D058434C \
  && wget http://www.digip.org/jansson/releases/jansson-2.10.tar.gz.asc \
  && gpg --verify jansson-2.10.tar.gz.asc jansson-2.10.tar.gz
 
 # Extract jasson
-RUN cd $BUILD_FOLDER \
- && tar -xvf jansson-2.10.tar.gz \
+RUN tar -xvf jansson-2.10.tar.gz \
  && rm jansson-2.10.tar.gz \
  && rm jansson-2.10.tar.gz.asc
 
 # Build Jansson
-RUN cd $BUILD_FOLDER/jansson-2.10 \
+RUN cd jansson-2.10 \
  && ./configure \
  && make \
- && make check
-
-# Install Jansson (need root for this)
-USER root
-RUN cd $BUILD_FOLDER/jansson-2.10 \
+ && make check \
  && make install
- 
-# Now switch to the builder and check out the git repo
-USER $APP_USER
+
+ENV CCMINER_FOLDER=$BUILD_FOLDER/ccminer
 
 # Clone from the git repo
-RUN cd $BUILD_FOLDER \
- && git clone --branch linux --single-branch https://github.com/tpruvot/ccminer
+RUN git clone --branch linux --single-branch https://github.com/ianblenke/nevermore-miner $CCMINER_FOLDER
 
-ENV CCMINER_FOLDER=$BUILD_FOLDER/ccminer
+WORKDIR $CCMINER_FOLDER
 
-# Uncomment all the architectures
+RUN ls -la
 
-ENV CCMINER_FOLDER=$BUILD_FOLDER/ccminer
+RUN sed -i -e 's/define MIN_DEV_DONATE_PERCENT 1/define MIN_DEV_DONATE_PERCENT 0/' donate.h
 
 # Replace uncomment all the old architectures
-RUN cd $CCMINER_FOLDER \
- && sed \
-     -e 's/#nvcc_ARCH += -gencode=arch=compute_61/nvcc_ARCH += -gencode=arch=compute_61/' \
-     -e 's/#nvcc_ARCH += -gencode=arch=compute_35/nvcc_ARCH += -gencode=arch=compute_35/' \
-     -e 's/#nvcc_ARCH += -gencode=arch=compute_30/nvcc_ARCH += -gencode=arch=compute_30/' \
-     Makefile.am > Makefile2.am
-RUN cd $CCMINER_FOLDER \
- && cp Makefile2.am Makefile.am \
- && rm Makefile2.am
+#RUN sed \
+#     -e 's/#nvcc_ARCH += -gencode=arch=compute_61/nvcc_ARCH += -gencode=arch=compute_61/' \
+#     -e 's/#nvcc_ARCH += -gencode=arch=compute_35/nvcc_ARCH += -gencode=arch=compute_35/' \
+#     -e 's/#nvcc_ARCH += -gencode=arch=compute_30/nvcc_ARCH += -gencode=arch=compute_30/' \
+#     Makefile.am > Makefile2.am \
+# && cp Makefile2.am Makefile.am \
+# && rm Makefile2.am
 
 # Run the build
-RUN cd $CCMINER_FOLDER \
- && ./build.sh
-
-# Copy the ccminer binary to a /app folder
-USER root
+RUN ./build.sh
 
 RUN mkdir $APP_FOLDER && \
     chown $APP_USER.users $APP_FOLDER && \
-    cp $CCMINER_FOLDER/ccminer $APP_FOLDER
+    cp $CCMINER_FOLDER/ccminer $APP_FOLDER/nevermore
 
 # Switch to a multistage build with the runtime image
 FROM nvidia/cuda:9.1-runtime-centos7
@@ -102,13 +87,13 @@ RUN echo /usr/local/lib > /etc/ld.so.conf.d/userlocal.conf \
  && ldconfig
 
 # Symlink the app to /usr/local/bin
-RUN ln -s $APP_FOLDER/ccminer /usr/local/bin/ccminer \
+RUN ln -s $APP_FOLDER/nevermore /usr/local/bin/nevermore \
  && chown -R root.root $APP_FOLDER
 
 # Recreate and switch to the app user for this build
 RUN adduser $APP_USER
 USER $APP_USER
 
-ADD run.sh /run.sh
+ADD nevermore.sh /nevermore.sh
 
-CMD /run.sh
+CMD /nevermore.sh

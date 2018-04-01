@@ -28,16 +28,29 @@ services:
       - 127.0.0.1:8767:8767 # IPC - Keep protected!
       - 8767:8767           # Ravencoin blockchain traffic
 
-  ravencoin-gpu-ccminer:
+#  ravencoin-ccminer:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.ccminer
+#    image: sofwerx/ravencoin-ccminer
+#    container_name: ravencoin-ccminer
+#    hostname: ravencoin-ccminer
+#    environment:
+#      URL: ${URL}
+#      USER: ${RVN_ADDRESS}
+#      PASS: ${PASS}
+#    logging: *default-logging
+
+  ravencoin-nevermore:
     build:
       context: .
-      dockerfile: Dockerfile.gpu-ccminer
-    image: sofwerx/ravencoin-gpu-ccminer
-    container_name: ravencoin-gpu-ccminer
-    hostname: ravencoin-gpu-ccminer
+      dockerfile: Dockerfile.nevermore
+    image: sofwerx/nevermore
+    container_name: ravencoin-nevermore
+    hostname: ravencoin-nevermore
     environment:
       URL: ${URL}
-      USER: ${USER}
+      USER: ${RVN_ADDRESS}
       PASS: ${PASS}
     logging: *default-logging
 
