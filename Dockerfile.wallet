@@ -32,17 +32,17 @@ RUN apt-get install -y \
 	qttools5-dev \
 	qttools5-dev-tools
 
-#RUN wget http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz \
-# && echo '12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef db-4.8.30.NC.tar.gz' | sha256sum -c \
-# && tar xzf db-4.8.30.NC.tar.gz -C / \
-# && cd /db-4.8.30.NC/build_unix \
-# && ../dist/configure --disable-shared --enable-cxx --with-pic \
-# && make install \
-# && cd / \
-# && rm -fr /db-4.8.30.NC/
+RUN wget http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz \
+ && echo '12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef db-4.8.30.NC.tar.gz' | sha256sum -c \
+ && tar xzf db-4.8.30.NC.tar.gz -C / \
+ && cd /db-4.8.30.NC/build_unix \
+ && ../dist/configure --disable-shared --enable-cxx --with-pic \
+ && make install \
+ && cd / \
+ && rm -fr /db-4.8.30.NC/
 
-RUN git clone https://github.com/RavenProject/Ravencoin /ravencoin \
- && cd /ravencoin \
+RUN git clone https://github.com/JustAResearcher/Meowcoin /meowcoin \
+ && cd /meowcoin \
  && sed -i -e 's/DEFAULT_GENERATE = true/DEFAULT_GENERATE = false/g' ./src/rpc/mining.h \
  && grep DEFAULT_GENERATE ./src/rpc/mining.h \
  && ./autogen.sh \
@@ -50,9 +50,9 @@ RUN git clone https://github.com/RavenProject/Ravencoin /ravencoin \
  && make \
  && make install \
  && cd / \
- && rm -fr /ravencoin
+ && rm -fr /meowcoin
 
-VOLUME /root/.raven
+VOLUME /root/.meowcoin
 
-CMD /usr/local/bin/ravend
+CMD /usr/local/bin/meowcoind
 
