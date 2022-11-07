@@ -15,7 +15,7 @@ Once running, you can docker exec into it and run `raven-cli` to interact with t
     $ meowcoin-cli getaddressesbyaccount ""
     $ meowcoin-cli getbalance ""
 
-# Mining... this section will be updated with kawpowminer configured for MEWC! For now, just ignore this, and anything to do with ccminer or any other miner! 
+# Mining... this section will be updated with kawpowminer (to be named meowcoinminer) configured for MEWC! For now, just ignore this, and anything to do with ccminer or any other miner! 
 
 The `meowcoin-gpu-ccminer` container requires a docker-engine with the nvidia runtime enabled by default.
 
