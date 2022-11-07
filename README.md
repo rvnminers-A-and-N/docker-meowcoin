@@ -1,6 +1,6 @@
 # docker-meowcoin
 
-A dockerizaton of the meowcoin wallet, soon to include kawpowminer (to be named meowcoinminer) support from past associated ccminer with x16r support!
+A dockerizaton of the meowcoin wallet, soon to include kawpowminer (to be named meowcoinminer) support from past associated ccminer/x16r support!
 
 # Wallet
 
