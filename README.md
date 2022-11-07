@@ -6,9 +6,10 @@ A dockerizaton of the meowcoin wallet, soon to include kawpowminer (to be named 
 
 On any docker-engine, you may run the wallet:
 
-    docker-compose up -d ravencoin-wallet
+    sudo usermod -aG docker your_user_account_name_here
+    sudo docker-compose up -d meowcoin-wallet
 
-Once running, you can docker exec into it and run `raven-cli` to interact with the wallet:
+Once running, you can docker exec into it and run `meowcoin-cli` to interact with the wallet:
 
     docker exec -ti meowcoin-wallet bash
     $ meowcoin-cli getnewaddress ""
