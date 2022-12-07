@@ -1,101 +1,44 @@
 # docker-meowcoin
 
-A dockerizaton of the meowcoin wallet, soon to include kawpowminer (to be named meowcoinminer) support from past associated ccminer/x16r support!
+A dockerizaton of the meowcoin wallet, soon to include kawpowminer (to be named meowcoinminer) support!
 
 # Wallet
 
 On any docker-engine, you may run the wallet:
 
     sudo usermod -aG docker your_user_account_name_here
+    sudo docker-compose build
     sudo docker-compose up -d meowcoin-wallet
 
+If you want to see the docker container info
+
+    sudo docker container ls
+    sudo docker ps
+    
 Once running, you can docker exec into it and run `meowcoin-cli` to interact with the wallet:
 
     docker exec -ti meowcoin-wallet bash
-    $ meowcoin-cli getnewaddress ""
+
+Now, once in the docker container, you can run the following example commands to check if the wallet automatically made an address, if not, make an address.
+You can also check wallet balances, etc.:
+    
     $ meowcoin-cli getaddressesbyaccount ""
+    $ meowcoin-cli getnewaddress ""
     $ meowcoin-cli getbalance ""
 
-# Mining... this section will be updated with kawpowminer (to be named meowcoinminer) configured for MEWC! For now, just ignore this, and anything to do with ccminer or any other miner! 
+Once you want to stop the node, or to stop the docker container, you must first stop the node using the following:
+    
+    $ meowcoin-cli stop
 
-The `meowcoin-gpu-ccminer` container requires a docker-engine with the nvidia runtime enabled by default.
+Then, wait a few moments and run the following:
+    
+    exit 
 
-First, you will want to install the latest nvidia driver and cuda libraries.
+This will allow you to leave the docker container.
 
-# nVidia on Docker
+Then, to stop and remove the docker container:
 
-On ubuntu, for the current latest `nvidia-390` driver:
+    sudo docker container stop meowcoin-wallet
+    sudo docker container rm meowcoin-wallet
 
-    sudo apt-get update
-    sudo apt-get install -y software-properties-common 
-    sudo add-apt-repository -y ppa:graphics-drivers
-    sudo apt-get update
-    sudo apt-get install -y nvidia-390
-
-To find the latest cuda library for the linux flavor and release you are using for your docker-engine host:
-
-- https://developer.nvidia.com/cuda-downloads
-
-For CUDA 9.1 on Ubuntu 16.04, for example:
-
-    wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_9.1.85-1_amd64.deb
-    sudo dpkg -i cuda-repo-ubuntu1604_9.1.85-1_amd64.deb
-    sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
-    sudo apt-get update
-    sudo apt-get install -y cuda
-
-Now you should be able to run this and see your nvidia card:
-
-    nvidia-smi
-
-Before you install nvidia-docker2`, you will want to make sure your `docker-ce` is up to date as well:
-
-    sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    sudo apt-get update
-    sudo apt-get install -y docker-ce nvidia-docker2
-
-Now you should be able to run this and see your nvidia card:
-
-    docker run -ti --rm --runtime=nvidia nvidia/cuda nvidia-smi
-
-The final remaning step to prepare your docker-engine is to edit your `dockerd` startup script and add this to the end:
-
-    --default-runtime=nvidia
-
-On a docker-machine generic driver provisioned ubuntu 16.04 host, I need to edit:
-
-    sudo vi /etc/systemd/system/docker.service.d/10-machine.conf
-
-Changing this line:
-
-    ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:50376 -H unix:///var/run/docker.sock --storage-driver overlay2 --tlsverify --tlscacert /etc/docker/ca.pem --tlscert /etc/docker/server.pem --tlskey /etc/docker/server-key.pem --label provider=generic
-
-To:
-
-    ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:50376 -H unix:///var/run/docker.sock --storage-driver overlay2 --tlsverify --tlscacert /etc/docker/ca.pem --tlscert /etc/docker/server.pem --tlskey /etc/docker/server-key.pem --label provider=generic --default-runtime=nvidia
-
-Now we tell systemd to reload the services from disk:
-
-    systemctl daemon-reload
-
-And then restart docker:
-
-    systemctl restart docker
-
-Now you should be able to run this and see your nvidia card:
-
-    docker run -ti --rm nvidia/cuda nvidia-smi
-
-Your docker-engine is now ready to run docker containers that use the nvidia GPU.
-
-# Running ccminer
-
-Start the miner using this:
-
-    docker-compose up -d meowcoin-gpu-ccminer
-
-Watch the logs using this:
-
-    docker-compose logs -f --tail=100 meowcoin-gpu-ccminer
-
+Enjoy!
