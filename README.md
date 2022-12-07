@@ -30,11 +30,9 @@ Once you want to stop the node, or to stop the docker container, you must first 
     
     $ meowcoin-cli stop
 
-Then, wait a few moments and run the following:
+Then, wait a few moments and run the following to exit the docker container:
     
     exit 
-
-This will allow you to leave the docker container.
 
 Then, to stop and remove the docker container:
 
