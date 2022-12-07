@@ -22,9 +22,9 @@ Once running, you can docker exec into it and run `meowcoin-cli` to interact wit
 Now, once in the docker container, you can run the following example commands to check if the wallet automatically made an address, if not, make an address.
 You can also check wallet balances, etc.:
     
-    $ meowcoin-cli getaddressesbyaccount ""
-    $ meowcoin-cli getnewaddress ""
-    $ meowcoin-cli getbalance ""
+    meowcoin-cli getaddressesbyaccount ""
+    meowcoin-cli getnewaddress ""
+    meowcoin-cli getbalance ""
 
 Once you want to stop the node, or to stop the docker container, you must first stop the node using the following:
     
