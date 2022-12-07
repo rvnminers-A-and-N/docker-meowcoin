@@ -9,24 +9,24 @@ x-logging:
 
 volumes:
 
-  ravencoin-data:
+  meowcoin-data:
     driver: local
 
 services:
 
-  ravencoin-wallet:
+  meowcoin-wallet:
     build:
       context: .
       dockerfile: Dockerfile.wallet
-    image: sofwerx/ravencoin-wallet
-    container_name: ravencoin-wallet
-    hostname: ravencoin-wallet
+    image: alpha/meowcoin-wallet
+    container_name: meowcoin-wallet
+    hostname: meowcoin-wallet
     logging: *default-logging
     volumes:
-      - ravencoin-data:/root/.raven
+      - meowcoin-data:/root/.meowcoin
     ports:
-      - 127.0.0.1:8767:8767 # IPC - Keep protected!
-      - 8767:8767           # Ravencoin blockchain traffic
+      - 127.0.0.1:8788:8788 # IPC - Keep protected!
+      - 8788:8788           # Meowcoin blockchain traffic
 
 #  ravencoin-ccminer:
 #    build:
@@ -43,15 +43,15 @@ services:
 #      PASSWORD: ${PASSWORD}
 #    logging: *default-logging
 
-  ravencoin-nevermore:
+  meowcoin-meowcoinminer:
     build:
       context: .
       args:
         ARCH: ${ARCH}
-      dockerfile: Dockerfile.nevermore.${ARCH}
-    image: sofwerx/nevermore
-    container_name: ravencoin-nevermore
-    hostname: ravencoin-nevermore
+      dockerfile: Dockerfile.meowcoinminer.${ARCH}
+    image: alpha/meowcoinminer
+    container_name: meowcoin-meowcoinminer
+    hostname: meowcoin-meowcoinminer
     environment:
       URL: ${URL}
       USERNAME: ${USERNAME}
@@ -72,4 +72,3 @@ services:
 #      USERNAME: ${USERNAME}
 #      PASSWORD: ${PASSWORD}
 #    logging: *default-logging
-

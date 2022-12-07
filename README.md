@@ -1,23 +1,24 @@
-# docker-ravencoin
+# docker-meowcoin
 
-A dockerizaton of the ravencoin wallet and associated ccminer with x16r support.
+A dockerizaton of the meowcoin wallet, soon to include kawpowminer (to be named meowcoinminer) support from past associated ccminer/x16r support!
 
 # Wallet
 
 On any docker-engine, you may run the wallet:
 
-    docker-compose up -d ravencoin-wallet
+    sudo usermod -aG docker your_user_account_name_here
+    sudo docker-compose up -d meowcoin-wallet
 
-Once running, you can docker exec into it and run `raven-cli` to interact with the wallet:
+Once running, you can docker exec into it and run `meowcoin-cli` to interact with the wallet:
 
-    docker exec -ti ravencoin-wallet bash
-    $ raven-cli getnewaddress ""
-    $ raven-cli getaddressesbyaccount ""
-    $ raven-cli getbalance ""
+    docker exec -ti meowcoin-wallet bash
+    $ meowcoin-cli getnewaddress ""
+    $ meowcoin-cli getaddressesbyaccount ""
+    $ meowcoin-cli getbalance ""
 
-# Mining
+# Mining... this section will be updated with kawpowminer (to be named meowcoinminer) configured for MEWC! For now, just ignore this, and anything to do with ccminer or any other miner! 
 
-The `ravencoin-gpu-ccminer` container requires a docker-engine with the nvidia runtime enabled by default.
+The `meowcoin-gpu-ccminer` container requires a docker-engine with the nvidia runtime enabled by default.
 
 First, you will want to install the latest nvidia driver and cuda libraries.
 
@@ -92,9 +93,9 @@ Your docker-engine is now ready to run docker containers that use the nvidia GPU
 
 Start the miner using this:
 
-    docker-compose up -d ravencoin-gpu-ccminer
+    docker-compose up -d meowcoin-gpu-ccminer
 
 Watch the logs using this:
 
-    docker-compose logs -f --tail=100 ravencoin-gpu-ccminer
+    docker-compose logs -f --tail=100 meowcoin-gpu-ccminer
 
