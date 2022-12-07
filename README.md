@@ -10,12 +10,12 @@ On any docker-engine, you may run the wallet:
     sudo docker-compose build
     sudo docker-compose up -d meowcoin-wallet
 
-If you want to see the docker container info
+If you want to see the docker container info:
 
     sudo docker container ls
     sudo docker ps
     
-Once running, you can docker exec into it and run `meowcoin-cli` to interact with the wallet:
+Once running, you can docker exec into it and run `meowcoin-cli` to interact with the wallet by running the following command:
 
     docker exec -ti meowcoin-wallet bash
 
