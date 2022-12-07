@@ -1,0 +1,74 @@
+version: '2.1'
+
+x-logging:
+  &default-logging
+  options:
+    max-size: '12m'
+    max-file: '5'
+  driver: json-file
+
+volumes:
+
+  meowcoin-data:
+    driver: local
+
+services:
+
+  meowcoin-wallet:
+    build:
+      context: .
+      dockerfile: Dockerfile.wallet
+    image: meowcoin-wallet
+    container_name: meowcoin-wallet
+    hostname: meowcoin
+    logging: *default-logging
+    volumes:
+      - meowcoin-data:/home/meowcoin/.meowcoin
+    #ports:
+      #- 127.0.0.1:8788:8788 # IPC - Keep protected!
+      #- 8788:8788           # Meowcoin blockchain traffic
+
+#  ravencoin-ccminer:
+#    build:
+#      context: .
+#      args:
+#        ARCH: ${ARCH}
+#      dockerfile: Dockerfile.ccminer.${ARCH}
+#    image: sofwerx/ravencoin-ccminer
+#    container_name: ravencoin-ccminer
+#    hostname: ravencoin-ccminer
+#    environment:
+#      URL: ${URL}
+#      USERNAME: ${USERNAME}
+#      PASSWORD: ${PASSWORD}
+#    logging: *default-logging
+
+#  meowcoin-meowcoinminer:
+#    build:
+#      context: .
+#      args:
+#        ARCH: ${ARCH}
+#      dockerfile: Dockerfile.meowcoinminer.${ARCH}
+#    image: alpha/meowcoinminer
+#    container_name: meowcoin-meowcoinminer
+#    hostname: meowcoin-meowcoinminer
+#    environment:
+#      URL: ${URL}
+#      USERNAME: ${USERNAME}
+#      PASSWORD: ${PASSWORD}
+#    logging: *default-logging
+
+#  ravencoin-cpu-cpuminer:
+#    build:
+#      context: .
+#      args:
+#        ARCH: ${ARCH}
+#      dockerfile: Dockerfile.cpu-cpuminer.${ARCH}
+#    image: sofwerx/ravencoin-cpu-cpuminer
+#    container_name: ravencoin-cpu-cpuminer
+#    hostname: ravencoin-cpu-cpuminer
+#    environment:
+#      URL: ${URL}
+#      USERNAME: ${USERNAME}
+#      PASSWORD: ${PASSWORD}
+#    logging: *default-logging

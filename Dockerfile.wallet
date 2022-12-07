@@ -1,0 +1,80 @@
+FROM amd64/ubuntu:18.04 AS base
+
+#EXPOSE 8788/tcp
+#EXPOSE 9766/tcp
+
+RUN apt-get update && \
+	apt-get install -y apt-utils
+
+RUN apt-get update && \
+	apt-get install -y software-properties-common && \
+	add-apt-repository ppa:bitcoin/bitcoin
+
+RUN apt-get update && \
+	apt-get dist-upgrade -yqq && \
+        apt-get install -y --no-install-recommends \
+	bash net-tools libminiupnpc10 \
+	libevent-2.1 libevent-pthreads-2.1 \
+	libdb4.8 libdb4.8++ \
+	libboost-system1.65 libboost-filesystem1.65 libboost-chrono1.65 \
+	libboost-program-options1.65 libboost-thread1.65 \
+	libzmq5 && \
+	apt-get clean
+
+FROM base AS build
+
+RUN apt-get update && \
+	apt-get install -y --no-install-recommends \
+	autoconf automake autotools-dev bash net-tools build-essential libtool autotools-dev automake git \
+	wget doxygen pkg-config libssl-dev libevent-dev bsdmainutils python3 \
+	libboost-system1.65-dev libboost-filesystem1.65-dev libboost-chrono1.65-dev \
+	libboost-program-options1.65-dev libboost-test1.65-dev libboost-thread1.65-dev libevent-dev \
+	libqt5core5a libqt5dbus5 libqt5gui5 libssl-dev libminiupnpc-dev libqrencode-dev libzmq3-dev libminiupnpc-dev \
+	libdb4.8-dev libdb4.8++-dev protobuf-compiler qttools5-dev qttools5-dev-tools && \
+	apt-get clean
+
+#Add Section To Github For Before Running
+#RUN adduser meowcoin && \
+#	usermod -aG sudo meowcoin && \
+
+RUN git config --global http.sslVerify false && \
+	git clone https://github.com/JustAResearcher/Meowcoin /home/meowcoin/meowcoin && \
+	#mv /meowcoin /home/meowcoin && \
+	git config --global http.sslVeryify true && \
+	cd /home/meowcoin/meowcoin && \
+	pwd && \
+	ls && \
+	chmod +x autogen.sh share/genbuild.sh ./src/leveldb/build_detect_platform && \
+	#cd contrib && \
+	#bash install_db4.sh /home/meowcoin/meowcoin && \
+	#cd ../ && \
+	#export BDB_PREFIX=/home/meowcoin/meowcoin/db4 && \
+	#cd depends && \
+	#make && \
+	#ls && \
+	#sleep 10 && \
+	#cd ../ && \
+	./autogen.sh && \
+	./configure --enable-cxx --disable-shared --with-pic --without-gui && \
+	make && \
+	make install && \
+	cd /home/meowcoin/meowcoin/src && \
+	ls
+
+VOLUME /root/.meowcoin
+
+#COPY /home/meowcoin/meowcoin/src/meowcoind /usr/local/bin/meowcoind
+#COPY /home/meowcoin/meowcoin/src/meowcoin-cli /usr/local/bin/meowcoin-cli
+
+#WORKDIR /home/meowcoin
+
+#COPY .meowcoin /root/.meowcoin
+#USER meowcoin
+
+EXPOSE 8788/tcp
+EXPOSE 9766/tcp
+
+CMD /usr/local/bin/meowcoind --datadir=/root/.meowcoin --printtoconsole
+
+#EXPOSE 8788/tcp
+#EXPOSE 9766/tcp
