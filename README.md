@@ -11,10 +11,10 @@ To begin create the meowcoin user and give it sudo group privelages:
 
 Then, one should install docker, docker engine, and docker compose, there are a variety of ways to do this, this is a basic example:
     
-    sudo apt-get install docker.io docker-engine docker-compose docker-ce docker-ce-cli containerd.io docker-compose-plugin
+    sudo apt-get install docker.io docker-engine docker-ce docker-ce-cli containerd.io docker-compose-plugin
     sudo snap install docker
 
-Note above, if any dependencies fail to install and it haults the command, just simply remove it and re-run the line.
+Note above, if any dependencies fail to install and it haults the command, just simply remove it and re-run the line. You may need to look at the Docker documentation.
 
 On any docker-engine, you may run the wallet:
 
