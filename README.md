@@ -4,9 +4,21 @@ A dockerizaton of the meowcoin wallet, soon to include kawpowminer (to be named 
 
 # Wallet
 
+To begin create the meowcoin user and give it sudo group privelages:
+
+    sudo adduser meowcoin
+    sudo usermod -aG sudo meowcoin
+
+Then, one should install docker, docker engine, and docker compose, there are a variety of ways to do this, this is a basic example:
+    
+    sudo apt-get install docker.io docker-engine docker-compose docker-ce docker-ce-cli containerd.io docker-compose-plugin
+    sudo snap install docker
+
+Note above, if any dependencies fail to install and it haults the command, just simply remove it and re-run the line.
+
 On any docker-engine, you may run the wallet:
 
-    sudo usermod -aG docker your_user_account_name_here
+    sudo usermod -aG docker meowcoin
     sudo docker-compose build
     sudo docker-compose up -d meowcoin-wallet
 
