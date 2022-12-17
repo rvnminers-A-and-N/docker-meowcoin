@@ -40,7 +40,8 @@ Once running, you can docker exec into it and run `meowcoin-cli` to interact wit
     sudo docker exec -ti meowcoin-wallet bash
 
 Now, once in the docker container, you can run the following example commands to check if the wallet automatically made an address, if not, make an address.
-You can also check wallet balances, etc.:
+You can also check wallet balances, etc. Typically, the "" field is populated as such, "ExampleAccount" so that the wallet on the node is listed under that user.
+However, sometimes if a user does not want to use an account, and just want to make a wallet for the node itself, they use the empty quotes, "".:
     
     meowcoin-cli getaddressesbyaccount ""
     meowcoin-cli getnewaddress ""
