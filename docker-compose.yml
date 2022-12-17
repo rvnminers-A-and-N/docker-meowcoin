@@ -25,5 +25,5 @@ services:
     volumes:
       - meowcoin-data:/home/meowcoin/.meowcoin
     #ports:
-      #- 127.0.0.1:8788:8788 # IPC - Keep protected!
-      #- 8788:8788           # Meowcoin blockchain traffic
+      #- 127.0.0.1:9766:9766 # Meowcoin blockchain traffic
+      #- 8788:8788           # RPC - Keep protected!
