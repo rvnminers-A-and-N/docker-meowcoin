@@ -49,7 +49,7 @@ However, sometimes if a user does not want to use an account, and just want to m
 
 Once you want to stop the node, or to stop the docker container, you must first stop the node using the following:
     
-    $ meowcoin-cli stop
+    meowcoin-cli stop
 
 Then, wait a few moments and run the following to exit the docker container:
     
